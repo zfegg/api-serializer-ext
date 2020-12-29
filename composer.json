@@ -1,0 +1,25 @@
+{
+  "name": "zfegg/api-serializer-ext",
+  "description": "Serialize hal/json-ld/json-api with Symfony Serializer.",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Moln Xie",
+      "email": "moln.xie@gmail.com"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "Zfegg\\ApiSerializerExt\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ZfeggTest\\ApiSerializerExt\\": "test/"
+    }
+  },
+  "require": {
+  }
+}
