@@ -21,5 +21,10 @@
     }
   },
   "require": {
+  },
+  "extra": {
+    "laminas": {
+      "config-provider": "Zfegg\\ApiSerializerExt\\ConfigProvider"
+    }
   }
 }
