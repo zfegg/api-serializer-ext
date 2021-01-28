@@ -21,6 +21,7 @@
     }
   },
   "require": {
+    "symfony/serializer": "^5.2"
   },
   "extra": {
     "laminas": {
