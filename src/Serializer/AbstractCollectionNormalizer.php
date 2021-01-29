@@ -43,9 +43,12 @@ abstract class AbstractCollectionNormalizer implements NormalizerInterface, Norm
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null, array $context = [])
     {
-        return static::FORMAT === $format && is_iterable($data);
+        return static::FORMAT === $format &&
+            is_iterable($data) &&
+            isset($context['api_resource']) &&
+            !isset($context['api_sub_level']);
     }
 
     /**
