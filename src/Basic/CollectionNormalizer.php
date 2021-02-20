@@ -34,16 +34,17 @@ final class CollectionNormalizer extends AbstractCollectionNormalizer
     {
         [$currentPage, $itemsPerPage, $totalItems, $pageCount] = $this->getPaginationConfig($object, $context);
 
-        if ($totalItems) {
+        $data = [];
+        if ($totalItems !== null) {
             $data['total'] = $totalItems;
         }
-        if ($currentPage) {
+        if ($currentPage !== null) {
             $data['page'] = $currentPage;
         }
-        if ($pageCount) {
+        if ($pageCount !== null) {
             $data['page_count'] = $pageCount;
         }
-        if ($itemsPerPage) {
+        if ($itemsPerPage !== null) {
             $data['page_size'] = $itemsPerPage;
         }
 

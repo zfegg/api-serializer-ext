@@ -48,6 +48,7 @@ abstract class AbstractCollectionNormalizer implements NormalizerInterface, Norm
         return static::FORMAT === $format &&
             is_iterable($data) &&
             isset($context['api_resource']) &&
+            $context['api_resource'] == 'collection' &&
             !isset($context['api_sub_level']);
     }
 
