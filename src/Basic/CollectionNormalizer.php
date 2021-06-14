@@ -27,6 +27,11 @@ final class CollectionNormalizer extends AbstractCollectionNormalizer
 {
     public const FORMAT = 'json';
 
+    public function hasCacheableSupportsMethod(): bool
+    {
+        return false;
+    }
+
     /**
      * {@inheritdoc}
      */
