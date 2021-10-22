@@ -1,15 +1,13 @@
 <?php
 
-
 namespace Zfegg\ApiSerializerExt\Paginator;
 
 
 trait PaginatorPropertyTrait
 {
+    use ItemsPerPageTrait;
+
     private int $currentPage = 1;
-
-    private int $itemsPerPage = 30;
-
 
     public function getCurrentPage(): int
     {
@@ -21,13 +19,4 @@ trait PaginatorPropertyTrait
         $this->currentPage = $currentPage;
     }
 
-    public function getItemsPerPage(): int
-    {
-        return $this->itemsPerPage;
-    }
-
-    public function setItemsPerPage(int $itemsPerPage): void
-    {
-        $this->itemsPerPage = $itemsPerPage;
-    }
 }
