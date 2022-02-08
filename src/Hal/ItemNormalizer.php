@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Zfegg\ApiSerializerExt\Hal;
 
 use Zfegg\ApiSerializerExt\Serializer\AbstractItemNormalizer;
-use Zfegg\ApiSerializerExt\Serializer\CacheKeyTrait;
-use Zfegg\ApiSerializerExt\Serializer\ContextTrait;
 use Zfegg\ApiSerializerExt\Util\ClassInfoTrait;
 use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;

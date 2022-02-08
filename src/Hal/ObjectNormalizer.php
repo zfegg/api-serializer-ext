@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Zfegg\ApiSerializerExt\Hal;
 
-use Zfegg\ApiSerializerExt\Api\IriConverterInterface;
 use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -30,7 +29,7 @@ final class ObjectNormalizer implements NormalizerInterface, DenormalizerInterfa
     private $decorated;
     private $iriConverter;
 
-    public function __construct(NormalizerInterface $decorated, IriConverterInterface $iriConverter)
+    public function __construct(NormalizerInterface $decorated, $iriConverter)
     {
         $this->decorated = $decorated;
         $this->iriConverter = $iriConverter;

@@ -24,10 +24,7 @@ final class ArrayNormalizer implements NormalizerInterface, SerializerAwareInter
         AbstractNormalizer::IGNORED_ATTRIBUTES => [],
     ];
 
-    /**
-     * @var NameConverterInterface|null
-     */
-    private $nameConverter;
+    private ?NameConverterInterface $nameConverter;
 
     public function __construct(NameConverterInterface $nameConverter = null, array $defaultContext = [])
     {

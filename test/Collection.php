@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
-namespace SimpleSerializerTest;
-
+namespace ZfeggTest\ApiSerializerExt;
 
 use Exception;
 use Zfegg\ApiSerializerExt\Paginator\OffsetPaginatorInterface;
