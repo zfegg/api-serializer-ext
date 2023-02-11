@@ -3,6 +3,8 @@
 
 namespace Zfegg\ApiSerializerExt\Paginator;
 
+use Traversable;
+
 class CursorPaginator implements CursorPaginatorInterface
 {
     use CursorPropertyTrait;
@@ -23,7 +25,7 @@ class CursorPaginator implements CursorPaginatorInterface
         $this->itemsPerPage = $itemsPerPage;
     }
 
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         foreach ($this->data as $item) {
             yield $item;

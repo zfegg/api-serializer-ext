@@ -22,12 +22,12 @@ class Paginator implements OffsetPaginatorInterface
         $this->itemsPerPage = $itemsPerPage;
     }
 
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new \ArrayIterator($this->data);
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->count;
     }
