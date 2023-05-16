@@ -24,7 +24,11 @@ class Paginator implements OffsetPaginatorInterface
 
     public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->data);
+        if (is_array($this->data)) {
+            return new \ArrayIterator($this->data);
+        } else {
+            return new \IteratorIterator($this->data);
+        }
     }
 
     public function count(): int

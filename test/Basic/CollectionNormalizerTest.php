@@ -15,12 +15,31 @@ use Zfegg\ApiSerializerExt\Paginator\Paginator;
 class CollectionNormalizerTest extends TestCase
 {
 
-    public function testNormalize()
+
+    public function iterableData()
+    {
+        $iter = (function() {
+            yield (['id' => 1, 'name' => 'aaa']);
+        })();
+        return [
+            [
+                $iter,
+            ],
+            [
+                [
+                    ['id' => 1, 'name' => 'aaa'],
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider iterableData
+     */
+    public function testNormalize(iterable $iter)
     {
         $data = new Paginator(
-            [
-                ['id' => 1, 'name' => 'aaa'],
-            ],
+            $iter,
             100, 1, 10
         );
 
