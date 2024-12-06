@@ -8,12 +8,11 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
 use Symfony\Component\Serializer\SerializerAwareTrait;
 
-final class ArrayNormalizer implements NormalizerInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
+final class ArrayNormalizer implements NormalizerInterface, SerializerAwareInterface
 {
     use SerializerAwareTrait;
 
@@ -48,15 +47,15 @@ final class ArrayNormalizer implements NormalizerInterface, SerializerAwareInter
         }
     }
 
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return (is_array($data) && count($data) > 0 && ! is_int(key($data))) || $data instanceof \ArrayObject;
+        return (is_array($data) && array_is_list($data)) || $data instanceof \ArrayObject;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $data = [];
         foreach ($object as $attribute => $attributeValue) {
@@ -99,11 +98,6 @@ final class ArrayNormalizer implements NormalizerInterface, SerializerAwareInter
         return $parentContext;
     }
 
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return false;
-    }
-
     private function isAllowedAttribute(string $attribute, array $context = []): bool
     {
         $ignoredAttributes = $context[AbstractNormalizer::IGNORED_ATTRIBUTES] ?? $this->defaultContext[AbstractNormalizer::IGNORED_ATTRIBUTES];
@@ -122,5 +116,13 @@ final class ArrayNormalizer implements NormalizerInterface, SerializerAwareInter
         }
 
         return true;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            \ArrayObject::class => true,
+            'native-array' => true,
+        ];
     }
 }

@@ -11,11 +11,6 @@ final class CollectionNormalizer extends AbstractCollectionNormalizer
 {
     public const FORMAT = 'json';
 
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return false;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -45,7 +40,7 @@ final class CollectionNormalizer extends AbstractCollectionNormalizer
      *
      * @throws UnexpectedValueException
      */
-    protected function getItemsData($object, string $format = null, array $context = []): array
+    protected function getItemsData(iterable $object, string $format = null, array $context = []): array
     {
         $data = [
             'data' => [],
@@ -61,5 +56,13 @@ final class CollectionNormalizer extends AbstractCollectionNormalizer
         }
 
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            \Traversable::class => true,
+            'native-array' => true,
+        ];
     }
 }

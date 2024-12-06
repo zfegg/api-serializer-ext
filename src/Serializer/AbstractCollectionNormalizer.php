@@ -9,22 +9,23 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Zfegg\ApiSerializerExt\Serializer;
 
 use Zfegg\ApiSerializerExt\Paginator\OffsetPaginatorInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use function count;
+use function is_countable;
 
 /**
  * Base collection normalizer.
  *
  * @author Baptiste Meyer <baptiste.meyer@gmail.com>
  */
-abstract class AbstractCollectionNormalizer implements NormalizerInterface, NormalizerAwareInterface, CacheableSupportsMethodInterface
+abstract class AbstractCollectionNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -33,39 +34,30 @@ abstract class AbstractCollectionNormalizer implements NormalizerInterface, Norm
      */
     public const FORMAT = 'to-override';
 
-    protected $pageParameterName;
 
-    public function __construct(string $pageParameterName = 'page')
+    public function __construct(protected string $pageParameterName = 'page')
     {
-        $this->pageParameterName = $pageParameterName;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, $format = null, array $context = [])
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return static::FORMAT === $format &&
             is_iterable($data) &&
             isset($context['api_resource']) &&
             $context['api_resource'] == 'collection' &&
-            !isset($context['api_sub_level']);
+            ! isset($context['api_sub_level']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
-    }
 
     /**
      * {@inheritdoc}
      *
      * @param iterable $object
      */
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if (isset($context['api_sub_level'])) {
             return $this->normalizeRawCollection($object, $format, $context);
@@ -84,9 +76,8 @@ abstract class AbstractCollectionNormalizer implements NormalizerInterface, Norm
     /**
      * Normalizes a raw collection (not API resources).
      *
-     * @param string|null $format
      */
-    protected function normalizeRawCollection($object, $format = null, array $context = []): array
+    protected function normalizeRawCollection($object, ?string $format = null, array $context = []): array
     {
         $data = [];
         foreach ($object as $index => $obj) {
@@ -99,14 +90,13 @@ abstract class AbstractCollectionNormalizer implements NormalizerInterface, Norm
     /**
      * Gets the pagination configuration.
      *
-     * @param iterable $object
      */
-    protected function getPaginationConfig($object, array $context = []): array
+    protected function getPaginationConfig(iterable $object, array $context = []): array
     {
         $currentPage = $itemsPerPage = $totalItems = $pageCount = null;
 
-        if (\is_array($object) || $object instanceof \Countable) {
-            $totalItems = \count($object);
+        if (is_countable($object)) {
+            $totalItems = count($object);
         }
         if ($object instanceof OffsetPaginatorInterface) {
             $currentPage = $object->getCurrentPage();
@@ -120,18 +110,16 @@ abstract class AbstractCollectionNormalizer implements NormalizerInterface, Norm
     /**
      * Gets the pagination data.
      *
-     * @param iterable $object
      */
-    abstract protected function getPaginationData($object, array $context = []): array;
+    abstract protected function getPaginationData(iterable $object, array $context = []): array;
 
     /**
      * Gets items data.
      *
-     * @param iterable $object
      */
-    abstract protected function getItemsData($object, string $format = null, array $context = []): array;
+    abstract protected function getItemsData(iterable $object, ?string $format = null, array $context = []): array;
 
-    private function initContext()
+    private function initContext(): array
     {
         return [
             'api_sub_level' => true,

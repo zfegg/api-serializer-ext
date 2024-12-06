@@ -12,7 +12,7 @@ class CursorPaginationNormalizer extends AbstractCollectionNormalizer
 {
     public const FORMAT = 'json';
 
-    public function supportsNormalization($data, $format = null, array $context = [])
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof CursorPaginatorInterface && parent::supportsNormalization($data, $format, $context);
     }
@@ -52,5 +52,13 @@ class CursorPaginationNormalizer extends AbstractCollectionNormalizer
         }
 
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            \Traversable::class => true,
+            'native-array' => true,
+        ];
     }
 }
